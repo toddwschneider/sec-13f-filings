@@ -1,0 +1,167 @@
+table.dataTable {
+  thead tr th:not(:empty) {
+    @apply px-4 py-2 font-medium;
+  }
+
+  thead tr:last-child th {
+    @apply border-b border-gray-500 cursor-pointer;
+  }
+
+  tbody tr td {
+    @apply px-4 py-2 border-b border-gray-200;
+  }
+
+  tbody tr:last-child td {
+    @apply border-b border-gray-500;
+  }
+
+  thead {
+    .sorting, .sorting_asc, .sorting_desc {
+      background-repeat: no-repeat;
+      background-position: 97% 50%;
+      background-size: 0.5rem;
+    }
+
+    .sorting {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'%3E%3C!-- Font Awesome Free 5.15.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --%3E%3Cpath fill='%23bbbbbb' d='M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41zm255-105L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z'/%3E%3C/svg%3E");
+    }
+
+    .sorting_desc {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'%3E%3C!-- Font Awesome Free 5.15.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --%3E%3Cpath d='M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z'/%3E%3C/svg%3E");
+    }
+
+    .sorting_asc {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'%3E%3C!-- Font Awesome Free 5.15.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --%3E%3Cpath d='M279 224H41c-21.4 0-32.1-25.9-17-41L143 64c9.4-9.4 24.6-9.4 33.9 0l119 119c15.2 15.1 4.5 41-16.9 41z'/%3E%3C/svg%3E");
+    }
+  }
+
+  .dataTables_empty {
+    @apply text-center font-medium text-gray-700 py-8;
+  }
+}
+
+.dataTables_info {
+  @apply pt-3 sm:float-left;
+}
+
+.dataTables_paginate {
+  @apply pt-5 sm:pt-3 sm:text-right;
+
+  .paginate_button {
+    @apply relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 cursor-pointer;
+  }
+
+  .paginate_button.current {
+    @apply bg-white border border-gray-300;
+  }
+
+  .paginate_button.previous {
+    @apply px-2 py-2 rounded-l-md border-r-0;
+  }
+
+  .paginate_button.next {
+    @apply px-2 py-2 rounded-r-md border-l-0;
+  }
+}
+
+.dataTables_filter {
+  @apply block font-medium text-gray-700 mb-4;
+
+  input[type="search"] {
+    @apply mt-1 block border-gray-300;
+  }
+}
+
+.dt-buttons button {
+  @apply px-2 py-1 mb-2 rounded border border-gray-300 bg-white hover:bg-gray-200 font-medium text-gray-700;
+}
+
+#filingAggregated {
+  width: 77rem;
+
+  th:nth-child(1) { width: 19rem; }
+  th:nth-child(2) { width: 10rem; }
+  th:nth-child(3) { width: 8rem; }
+  th:nth-child(4) { width: 10rem; }
+  th:nth-child(5) { width: 5rem; }
+  th:nth-child(6) { width: 10rem; }
+  th:nth-child(7) { width: 10rem; }
+  th:nth-child(8) { width: 5rem; }
+}
+
+#filingDetailed {
+  width: 117rem;
+
+  th:nth-child(1) { width: 19rem; }
+  th:nth-child(2) { width: 10rem; }
+  th:nth-child(3) { width: 8rem; }
+  th:nth-child(4) { width: 10rem; }
+  th:nth-child(5) { width: 5rem; }
+  th:nth-child(6) { width: 10rem; }
+  th:nth-child(7) { width: 10rem; }
+  th:nth-child(8) { width: 5rem; }
+  th:nth-child(9) { width: 8rem; }
+  th:nth-child(10) { width: 8rem; }
+  th:nth-child(11) { width: 8rem; }
+  th:nth-child(12) { width: 8rem; }
+  th:nth-child(13) { width: 8rem; }
+}
+
+#filingComparison, .filing-comparison-table.fixedHeader-floating {
+  width: 114rem;
+
+  tr:first-child {
+    th  { @apply p-0; }
+
+    th:nth-child(1) { width: 19rem; }
+    th:nth-child(2) { width: 10rem; }
+    th:nth-child(3) { width: 8rem; }
+    th:nth-child(4) { width: 5rem; }
+    th:nth-child(5) { width: 10rem; }
+    th:nth-child(6) { width: 10rem; }
+    th:nth-child(7) { width: 10rem; }
+    th:nth-child(8) { width: 6rem; }
+    th:nth-child(9) { width: 10rem; }
+    th:nth-child(10) { width: 10rem; }
+    th:nth-child(11) { width: 10rem; }
+    th:nth-child(12) { width: 6rem; }
+  }
+
+  tr:nth-child(2) th {
+    @apply pb-0;
+  }
+}
+
+#managerCusipHoldings {
+  width: 58rem;
+
+  th:nth-child(1) { width: 9rem; }
+  th:nth-child(2) { width: 10rem; }
+  th:nth-child(3) { width: 6rem; }
+  th:nth-child(4) { width: 10rem; }
+  th:nth-child(5) { width: 6rem; }
+  th:nth-child(6) { width: 9rem; }
+  th:nth-child(7) { width: 8rem; }
+}
+
+#allCusipHoldings {
+  width: 54rem;
+
+  th:nth-child(1) { width: 18rem; }
+  th:nth-child(2) { width: 9rem; }
+  th:nth-child(3) { width: 10rem; }
+  th:nth-child(4) { width: 10rem; }
+  th:nth-child(5) { width: 7rem; }
+}
+
+#managerFilings {
+  width: 82rem;
+
+  th:nth-child(1) { width: 11rem; }
+  th:nth-child(2) { width: 10rem; }
+  th:nth-child(3) { width: 8rem; }
+  th:nth-child(4) { width: 11rem; }
+  th:nth-child(5) { width: 8rem; }
+  th:nth-child(6) { width: 10rem; }
+  th:nth-child(7) { width: 24rem; }
+}

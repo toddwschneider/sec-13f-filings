@@ -1,0 +1,31 @@
+<%
+title "All 13F Filers"
+canonical_url managers_url(page: params[:page])
+meta_description "All investment managers who file quarterly 13F holdings disclosures"
+content_for :head, rel_next_prev_link_tags(@filers)
+%>
+
+<h1 class="mb-4">
+  All 13F Filers
+</h1>
+
+<table class="mb-8 border shadow">
+  <thead>
+    <tr class="bg-white border-b border-gray-900">
+      <th class="text-left px-2 py-1">Name</th>
+      <th class="text-left px-2 py-1">Location</th>
+      <th class="text-left px-2 py-1">Most recent filing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @filers.each do |f| %>
+      <tr class="bg-gray-50 even:bg-white">
+        <td class="px-2 py-2 sm:py-1"><%= link_to f.name, manager_path(f) %></td>
+        <td class="px-2 py-2 sm:py-1"><%= f.city_and_state %></td>
+        <td class="px-2 py-2 sm:py-1 text-right"><%= mdy f.most_recent_date_filed %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @filers %>

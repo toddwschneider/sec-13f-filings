@@ -1,0 +1,47 @@
+<%
+title "#{@investment_name} 13F Holders"
+canonical_url cusip_index_url(cusip: @cusip)
+meta_description "Historical institutional 13F holders of #{@investment_name}"
+%>
+
+<div class="w-max md:max-w-xl">
+  <div class="bg-white shadow mb-8">
+    <div class="px-4 py-2">
+      <h1 class="leading-8 mb-2">
+        <%= @investment_name %>
+      </h1>
+      <h2 class="text-2xl">
+        Historical 13F Holders
+      </h2>
+    </div>
+    <div class="border-t border-gray-200">
+      <%= render "description_list", items: cusip_index_dl_items(@lookup, @cusip) %>
+    </div>
+  </div>
+</div>
+
+<div class="w-72">
+  <table class="w-full">
+    <thead>
+      <tr>
+        <th class="font-medium text-gray-500 text-left px-4">Period</th>
+        <th class="font-medium text-gray-500 text-right px-4">13F Filings</th>
+      </tr>
+    </thead>
+    <tbody class="shadow">
+      <% @periods.each do |row| %>
+        <tr class="bg-white even:bg-gray-50">
+          <td class="font-medium text-gray-500 px-4 py-2 sm:py-1">
+            <%=
+              link_to row.yyyy_qq,
+                all_cusip_holders_path(cusip: @cusip, year: row.report_year, quarter: row.report_quarter)
+            %>
+          </td>
+          <td class="text-gray-900 text-right px-4 py-2 sm:py-1">
+            <%= number_with_delimiter row.filings_count %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

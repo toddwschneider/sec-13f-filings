@@ -1,0 +1,50 @@
+<details>
+  <summary class="text-xs mb-4 cursor-pointer">
+    <h2 class="inline align-middle text-xl font-medium">
+      About
+    </h2>
+  </summary>
+
+  <div class="text-base">
+    <p class="mb-4">
+      The SEC requires institutional investment managers to file quarterly Form 13F reports that list equity assets under management. You can read more about the rules for 13F filings on
+      <%= link_to "the SEC’s website", "https://www.sec.gov/divisions/investment/13ffaq.htm", target: :_blank %>
+    </p>
+
+    <p class="mb-4">
+      Filings are publicly available via
+      <%= link_to "EDGAR", "https://www.sec.gov/edgar/searchedgar/companysearch.html", target: :_blank %>,
+      but the formatting is not ideal, so I
+      (<%= link_to "Todd", "https://toddwschneider.com/", target: :_blank %>)
+      built this site as a nicer way to view them
+    </p>
+
+    <p class="mb-4">
+      The site provides additional functionality to compare 13Fs across periods, view a manager’s holding history for a specific investment, and list all managers who reported holding a particular company within a given quarter
+    </p>
+
+    <h3 class="font-medium mt-8 mb-4 text-xl">
+      Caveat emptor!
+    </h3>
+
+    <p class="mb-4">
+      There are many caveats about 13F data, but perhaps the most important is the notice that the SEC puts at the top of every filing on its site, which basically says that nobody has done any checking to see if the data is accurate:
+    </p>
+
+    <blockquote class="mb-4 pl-4 border-l-4 border-gray-300 text-gray-700 leading-5">
+      The Securities and Exchange Commission has not necessarily reviewed the information in this filing and has not determined if it is accurate and complete. The reader should not assume that the information is accurate and complete
+    </blockquote>
+
+    <p class="mb-4">
+      The code for this site is <%= link_to "available on GitHub", github_url, target: :_blank %>, along with more information about how it works and its limitations
+    </p>
+
+    <h3 class="font-medium mt-8 mb-4 text-xl">
+      Contact
+    </h3>
+
+    <p class="mb-4">
+      You can email me at todd@toddwschneider.com, or open an issue on GitHub
+    </p>
+  </div>
+</details>

@@ -1,0 +1,46 @@
+<%
+title "#{@manager.name} – #{@investment_name} 13F Holdings History"
+canonical_url manager_cusip_history_url(cik: @manager.cik, cusip: @cusip)
+meta_description "#{@manager.name} historical 13F holdings disclosures of #{@investment_name}"
+%>
+
+<div class="w-full md:max-w-2xl mb-8">
+  <div class="bg-white shadow">
+    <div class="px-4 py-2">
+      <h1 data-cik="<%= @manager.cik %>">
+        <%= link_to @manager.name, manager_path(@manager) %>
+      </h1>
+
+      <h2 class="my-2 text-gray-500">
+        13F Holdings History for
+      </h2>
+
+      <h1 data-cusip="<%= @cusip %>">
+        <%= link_to @investment_name, cusip_index_path(cusip: @cusip) %>
+      </h1>
+    </div>
+    <div class="border-t border-gray-200">
+      <%= render "description_list", items: manager_cusip_history_dl_items(@manager, @lookup, @cusip) %>
+    </div>
+  </div>
+</div>
+
+<div class="w-max max-w-full">
+  <table id="managerCusipHoldings" class="border shadow table-fixed" data-url="<%= manager_cusip_history_data_path(cik: @manager.cik, cusip: @cusip) %>">
+    <thead>
+      <tr>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Holdings date</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Value ($000s)</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">% of Holdings</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">
+          <%= @lookup&.shares_or_principal_header %>
+        </th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Option Type</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Filing date</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">All 13F Holders</th>
+      </tr>
+    </thead>
+    <tbody class="font-mono">
+    </tbody>
+  </table>
+</div>

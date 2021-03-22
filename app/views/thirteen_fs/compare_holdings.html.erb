@@ -1,0 +1,105 @@
+<%
+title "#{@filing.name} #{@filing.qq_yyyy} vs. #{@other_filing.qq_yyyy} 13F Holdings Comparison"
+canonical_url thirteen_f_comparison_url(external_id: @filing.external_id, other_external_id: @other_filing.external_id)
+meta_description "Comparison of #{@filing.name} public holdings disclosures from #{@other_filing.qq_yyyy} to #{@filing.qq_yyyy}"
+%>
+
+<div class="w-full md:max-w-2xl mb-8">
+  <div class="bg-white shadow">
+    <div class="px-4 py-2">
+      <h1 class="leading-8 mb-2" data-cik="<%= @filing.cik %>">
+        <%= link_to @filing.name, manager_path(@filing.filer) %>
+      </h1>
+      <h2 class="text-2xl">
+        <%= "#{@filing.qq_yyyy} vs. #{@other_filing.qq_yyyy} 13F Holdings" %>
+      </h2>
+    </div>
+    <div class="border-t border-gray-200">
+      <dl>
+        <% thirteen_f_comparison_dl_items(@filing, @other_filing).each do |row| %>
+          <div class="bg-gray-50 even:bg-white px-4 py-2 grid grid-cols-3">
+            <dt class="text-sm font-medium text-gray-500">
+              <%= row.first %>
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0">
+              <%= row.second %>
+            </dd>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0">
+              <%= row.third %>
+            </dd>
+          </div>
+        <% end %>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<div class="mb-8">
+  <%= label_tag "comparison", "Compare #{@filing.qq_yyyy} to", class: "block font-medium text-gray-700" %>
+  <%=
+    select_tag "comparison",
+      comparison_select_options(@filing, @other_filing),
+      onchange: "if (this.value) window.location.href = this.value;",
+      class: "border-gray-300 w-48 mt-1"
+  %>
+</div>
+
+<div class="w-max max-w-full">
+  <table id="filingComparison" class="filing-comparison-table border shadow table-fixed" data-url="<%= thirteen_f_comparison_data_path(external_id: @filing.external_id, other_external_id: @other_filing.external_id) %>">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+
+      <tr>
+        <th colspan="4" class="bg-white text-sm font-medium text-gray-500 uppercase"></th>
+        <th colspan="4" class="bg-gray-100 text-sm font-medium text-gray-500 uppercase">Shares / Principal Amt</th>
+        <th colspan="4" class="bg-gray-200 text-sm font-medium text-gray-500 uppercase">Value ($000)</th>
+      </tr>
+
+      <tr>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Issuer Name</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Class</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">CUSIP</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Option Type</th>
+        <th class="bg-gray-100 text-sm font-medium text-gray-500 uppercase">
+          <%= @filing.qq_yyyy %>
+        </th>
+        <th class="bg-gray-100 text-sm font-medium text-gray-500 uppercase">
+          <%= @other_filing.qq_yyyy %>
+        </th>
+        <th class="bg-gray-100 text-sm font-medium text-gray-500 uppercase">
+          Diff
+        </th>
+        <th class="bg-gray-100 text-sm font-medium text-gray-500 uppercase">
+          Chg %
+        </th>
+        <th class="bg-gray-200 text-sm font-medium text-gray-500 uppercase">
+          <%= @filing.qq_yyyy %>
+        </th>
+        <th class="bg-gray-200 text-sm font-medium text-gray-500 uppercase">
+          <%= @other_filing.qq_yyyy %>
+        </th>
+        <th class="bg-gray-200 text-sm font-medium text-gray-500 uppercase">
+          Diff
+        </th>
+        <th class="bg-gray-200 text-sm font-medium text-gray-500 uppercase">
+          Chg %
+        </th>
+      </tr>
+    </thead>
+    <tbody class="font-mono">
+    </tbody>
+  </table>
+</div>

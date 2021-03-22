@@ -1,0 +1,24 @@
+<%
+title "SEC 13F Filings"
+canonical_url root_url
+meta_description "Public holdings disclosures from institutional investment managers"
+%>
+
+<div class="flex flex-col w-full sm:max-w-xl h-full mx-auto">
+  <h1 class="mt-12 sm:mt-32 sm:text-5xl mb-4">SEC 13F Filings</h1>
+
+  <div class="relative mb-12">
+    <input id="autocomplete" type="search" class="text-lg sm:text-2xl w-full rounded shadow" autofocus data-url="<%= autocomplete_path %>" placeholder="Search by manager, investment, CIK, or CUSIP…">
+    <div class="autocomplete-results"></div>
+  </div>
+
+  <div class="flex-1 mb-12">
+    <%= render "about" %>
+  </div>
+
+  <div class="text-lg text-center pb-4">
+    <%= link_to "All Managers", managers_path %> |
+    <%= link_to "Newest Filings", newest_filings_path %> |
+    <%= link_to "GitHub", github_url, target: :_blank %>
+  </div>
+</div>

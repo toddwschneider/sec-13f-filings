@@ -1,0 +1,37 @@
+<%
+title "#{@investment_name} – Q#{@quarter} #{@year} 13F Holders"
+canonical_url all_cusip_holders_url(cusip: @cusip, year: @year, quarter: @quarter)
+meta_description "Institutional investment managers who reported holding #{@investment_name} in Q#{@quarter} #{@year}"
+%>
+
+<div class="w-full md:max-w-2xl mb-8">
+  <div class="bg-white shadow">
+    <div class="px-4 py-2">
+      <h1 class="leading-8 mb-2">
+        <%= link_to @investment_name, cusip_index_path(cusip: @cusip) %>
+      </h1>
+      <h2 class="text-2xl">
+        <%= "Q#{@quarter} #{@year}" %> 13F Holders
+      </h2>
+    </div>
+    <div class="border-t border-gray-200">
+      <%= render "description_list", items: all_cusip_holders_dl_items(@lookup, @cusip) %>
+    </div>
+  </div>
+</div>
+
+<div class="w-max max-w-full">
+  <table id="allCusipHoldings" class="border shadow table-fixed" data-url="<%= all_cusip_holders_data_path(cusip: @cusip, year: @year, quarter: @quarter) %>">
+    <thead>
+      <tr>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Manager</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Report Date</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Value ($000)</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase"><%= @lookup&.shares_or_principal_header %></th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Option Type</th>
+      </tr>
+    </thead>
+    <tbody class="font-mono">
+    </tbody>
+  </table>
+</div>

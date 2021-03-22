@@ -1,0 +1,12 @@
+<dl>
+  <% items.each do |item| %>
+    <div class="bg-gray-50 even:bg-white px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        <%= item.first %>
+      </dt>
+      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2<%= " #{item.third[:dd_class]}" if item.third %>">
+        <%= item.second %>
+      </dd>
+    </div>
+  <% end %>
+</dl>

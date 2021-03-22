@@ -1,0 +1,50 @@
+<%
+title "#{@filer.name} 13F Filings"
+canonical_url manager_url(@filer)
+meta_description "Historical SEC 13F filings by #{@filer.name}"
+%>
+
+<div class="w-full md:max-w-2xl mb-8">
+  <div class="bg-white shadow">
+    <div class="px-4 py-2">
+      <h1 class="leading-8 mb-2">
+        <%= @filings.first.name %>
+      </h1>
+      <h2 class="text-2xl">
+        All 13F Filings
+      </h2>
+    </div>
+    <div class="border-t border-gray-200">
+      <%= render "description_list", items: filer_dl_items(@filer) %>
+    </div>
+  </div>
+</div>
+
+<div class="w-max max-w-full">
+  <table id="managerFilings" class="border shadow table-fixed">
+    <thead>
+      <tr>
+        <th class="px-4 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Filing ID</th>
+        <th class="px-4 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Report Period</th>
+        <th class="px-4 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Holdings</th>
+        <th class="px-4 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Value ($000)</th>
+        <th class="px-4 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Form Type</th>
+        <th class="px-4 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Date Filed</th>
+        <th class="px-4 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Name</th>
+      </tr>
+    </thead>
+    <tbody class="font-mono">
+      <% @filings.each do |f| %>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-4 py-2 text-center"><%= link_to f.external_id, thirteen_f_path(f) %></td>
+          <td class="px-4 py-2 text-center" data-order="<%= f.report_date %>"><%= f.qq_yyyy %></td>
+          <td class="px-4 py-2 text-right"><%= number_with_delimiter(f.aggregate_holdings_count) %></td>
+          <td class="px-4 py-2 text-right"><%= number_with_delimiter(f.holdings_value_calculated&.to_i) %></td>
+          <td class="px-4 py-2 text-center"><%= f.form_or_amendment_type.upcase %></td>
+          <td class="px-4 py-2 text-right" data-order="<%= f.date_filed %>"><%= mdy f.date_filed %></td>
+          <td class="px-4 py-2 truncate" title="<%= f.name %>"><%= f.name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

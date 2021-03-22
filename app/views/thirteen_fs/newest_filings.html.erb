@@ -1,0 +1,33 @@
+<%
+title "Newest 13F Filings"
+canonical_url newest_filings_url(page: params[:page])
+meta_description "Most recently filed SEC 13F forms"
+content_for :head, rel_next_prev_link_tags(@filings)
+%>
+
+<h1 class="mb-4">
+  Newest 13F Forms Filed Since <%= mdy @filed_since %>
+</h1>
+
+<table class="mb-8 border shadow max-w-full">
+  <thead>
+    <tr class="bg-white border-b border-gray-900">
+      <th class="text-left px-3 py-1">Manager</th>
+      <th class="text-left px-3 py-1">Period</th>
+      <th class="text-right px-3 py-1">Date Filed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @filings.each do |f| %>
+      <tr class="bg-gray-50 even:bg-white">
+        <td class="px-3 py-2 sm:py-1 max-w-sm"><%= link_to f.name, manager_path(f.filer) %></td>
+        <td class="text-left px-3 py-2 sm:py-1">
+          <%= link_to [f.yyyy_qq, f.amendment_type&.upcase].compact.join(" - "), thirteen_f_path(f) %>
+        </td>
+        <td class="text-right px-3 py-2 sm:py-1"><%= mdy f.date_filed %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @filings %>

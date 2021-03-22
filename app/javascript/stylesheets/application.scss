@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply font-medium text-3xl;
+  }
+
+  h2 {
+    @apply text-xl;
+  }
+
+  a {
+    @apply text-indigo-600 hover:text-indigo-900 visited:text-purple-900;
+  }
+}
+
+nav.pagination {
+  span {
+    @apply px-4 sm:px-2;
+  }
+}

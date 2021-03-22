@@ -1,0 +1,59 @@
+<%
+title "#{@filing.name} #{@filing.qq_yyyy} #{@filing.form_type} Holdings"
+canonical_url thirteen_f_url(@filing)
+meta_description "#{@filing.name} holdings disclosure for #{@filing.qq_yyyy}"
+%>
+
+<div class="w-full md:max-w-2xl mb-8">
+  <div class="bg-white shadow">
+    <div class="px-4 py-2">
+      <h1 class="leading-8 mb-2" data-cik="<%= @filing.cik %>">
+        <%= link_to @filing.name, manager_path(@filing.filer) %>
+      </h1>
+      <h2 class="text-2xl">
+        <%= "#{@filing.qq_yyyy} #{@filing.form_type} Holdings" %>
+      </h2>
+    </div>
+    <div class="border-t border-gray-200">
+      <%= render "description_list", items: thirteen_f_dl_items(@filing) %>
+    </div>
+  </div>
+</div>
+
+<% if @filing.has_been_restated? %>
+  <div class="p-2 mb-8 rounded text-xl bg-red-400 w-max max-w-full">
+    This filing has been restated,
+    <%= link_to "see here", thirteen_f_path(@filing.restated_by_filing) %>
+    for the amended filing
+  </div>
+<% end %>
+
+<div class="mb-8">
+  <%= label_tag "comparison", "Compare #{@filing.qq_yyyy} to", class: "block font-medium text-gray-700" %>
+  <%=
+    select_tag "comparison",
+      comparison_select_options(@filing),
+      include_blank: true,
+      onchange: "if (this.value) window.location.href = this.value;",
+      class: "border-gray-300 w-48 mt-1"
+  %>
+</div>
+
+<div class="w-max max-w-full">
+  <table id="filingAggregated" class="border shadow table-fixed" data-url="<%= thirteen_f_data_path(external_id: @filing.external_id) %>">
+    <thead>
+      <tr>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Issuer Name</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Class</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">CUSIP</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Value ($000)</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">%</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Shares</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Principal</th>
+        <th class="bg-white text-sm font-medium text-gray-500 uppercase">Option Type</th>
+      </tr>
+    </thead>
+    <tbody class="font-mono">
+    </tbody>
+  </table>
+</div>
