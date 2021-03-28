@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
       return;
     }
 
-    let headers = {managers: 'Investment Managers', cusips: 'CUSIPs'};
+    let headers = {managers: 'Investment Managers', cusips: 'Investments'};
     let url = input.getAttribute('data-url') + '?q=' + encodeURIComponent(query);
     let autocompleteHtml = '';
 

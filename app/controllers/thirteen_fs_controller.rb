@@ -49,6 +49,7 @@ class ThirteenFsController < ApplicationController
     @cusip = parsed_cusip
     @lookup = CompanyCusipLookup.find_by(cusip: @cusip)
     @investment_name = @lookup&.issuer_name || @cusip
+    @name_for_title = @lookup&.symbol_and_name || @cusip
     @periods = CusipQuarterlyFilingsCount.for_cusip_index(@cusip)
 
     head :not_found if @periods.blank?
@@ -63,6 +64,7 @@ class ThirteenFsController < ApplicationController
 
     @lookup = CompanyCusipLookup.find_by(cusip: @cusip)
     @investment_name = @lookup&.issuer_name || @cusip
+    @name_for_title = @lookup&.symbol_and_name || @cusip
   end
 
   def manager_cusip_history
@@ -70,6 +72,7 @@ class ThirteenFsController < ApplicationController
     @cusip = parsed_cusip
     @lookup = CompanyCusipLookup.find_by(cusip: @cusip)
     @investment_name = @lookup&.issuer_name || @cusip
+    @name_for_title = @lookup&.symbol_and_name || @cusip
   end
 
   def newest_filings

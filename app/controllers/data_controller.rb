@@ -19,7 +19,7 @@ class DataController < ApplicationController
       map do |c|
         {
           name: c.issuer_name,
-          extra: "CUSIP: #{c.cusip}, Class: #{c.class_title.upcase}",
+          extra: [c.symbol, c.cusip, c.class_title.upcase].compact.join(" - "),
           url: cusip_index_path(cusip: c.cusip)
         }
       end
