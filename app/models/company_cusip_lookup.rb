@@ -4,9 +4,9 @@ class CompanyCusipLookup < ApplicationRecord
   end
 
   scope :autocomplete, -> (query, min_holdings_count: 10) {
-    where("issuer_name ILIKE ? OR cusip = ?", "%#{query}%", query).
+    where("issuer_name ILIKE ? OR symbol ILIKE ? OR cusip = ?", "%#{query}%", "#{query}%", query.upcase).
       where("holdings_count >= ?", min_holdings_count).
-      order("holdings_count DESC, lower(issuer_name), class_title")
+      order([Arel.sql("symbol = ? DESC NULLS LAST, holdings_count DESC, lower(issuer_name)"), query.upcase])
   }
 
   def self.refresh!
@@ -14,6 +14,10 @@ class CompanyCusipLookup < ApplicationRecord
       :company_cusip_lookups,
       concurrently: true
     )
+  end
+
+  def symbol_and_name
+    "#{symbol} #{issuer_name}".strip
   end
 
   def investment_type

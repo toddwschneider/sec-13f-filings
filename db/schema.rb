@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_13_203021) do
+ActiveRecord::Schema.define(version: 2021_03_27_205234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -32,6 +32,16 @@ ActiveRecord::Schema.define(version: 2021_03_13_203021) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["cusip", "thirteen_f_id"], name: "index_aggregate_holdings_on_cusip_and_thirteen_f_id"
     t.index ["thirteen_f_id"], name: "index_aggregate_holdings_on_thirteen_f_id"
+  end
+
+  create_table "cusip_symbol_mappings", force: :cascade do |t|
+    t.text "cusip", null: false
+    t.text "symbol"
+    t.text "name"
+    t.text "exchange"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cusip"], name: "index_cusip_symbol_mappings_on_cusip", unique: true
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -117,27 +127,6 @@ ActiveRecord::Schema.define(version: 2021_03_13_203021) do
   end
 
 
-  create_view "company_cusip_lookups", materialized: true, sql_definition: <<-SQL
-      WITH holding_counts AS (
-           SELECT aggregate_holdings.cusip,
-              aggregate_holdings.issuer_name,
-              aggregate_holdings.class_title,
-              aggregate_holdings.shares_or_principal_amount_type,
-              count(*) AS holdings_count
-             FROM aggregate_holdings
-            GROUP BY aggregate_holdings.cusip, aggregate_holdings.issuer_name, aggregate_holdings.class_title, aggregate_holdings.shares_or_principal_amount_type
-          )
-   SELECT DISTINCT ON (holding_counts.cusip) holding_counts.cusip,
-      holding_counts.issuer_name,
-      holding_counts.class_title,
-      holding_counts.shares_or_principal_amount_type,
-      holding_counts.holdings_count
-     FROM holding_counts
-    ORDER BY holding_counts.cusip, holding_counts.holdings_count DESC, holding_counts.issuer_name, holding_counts.class_title;
-  SQL
-  add_index "company_cusip_lookups", ["cusip"], name: "index_company_cusip_lookups_on_cusip", unique: true
-  add_index "company_cusip_lookups", ["issuer_name"], name: "index_company_cusip_lookups_on_issuer_name", opclass: :gin_trgm_ops, using: :gin
-
   create_view "thirteen_f_filers", materialized: true, sql_definition: <<-SQL
       WITH most_recent AS (
            SELECT DISTINCT ON (thirteen_fs.cik) thirteen_fs.cik,
@@ -162,6 +151,7 @@ ActiveRecord::Schema.define(version: 2021_03_13_203021) do
      FROM (most_recent
        JOIN counts ON ((most_recent.cik = counts.cik)));
   SQL
+  add_index "thirteen_f_filers", "lower(name)", name: "index_thirteen_f_filers_on_lower_name"
   add_index "thirteen_f_filers", ["cik"], name: "index_thirteen_f_filers_on_cik", unique: true
   add_index "thirteen_f_filers", ["name"], name: "index_thirteen_f_filers_on_name", opclass: :gin_trgm_ops, using: :gin
 
@@ -176,5 +166,38 @@ ActiveRecord::Schema.define(version: 2021_03_13_203021) do
     ORDER BY h.cusip, f.report_year, f.report_quarter;
   SQL
   add_index "cusip_quarterly_filings_counts", ["cusip", "report_year", "report_quarter"], name: "index_cusip_quarterly_filings_unique", unique: true
+
+  create_view "company_cusip_lookups", materialized: true, sql_definition: <<-SQL
+      WITH holding_counts AS (
+           SELECT aggregate_holdings.cusip,
+              aggregate_holdings.issuer_name,
+              aggregate_holdings.class_title,
+              aggregate_holdings.shares_or_principal_amount_type,
+              count(*) AS holdings_count
+             FROM aggregate_holdings
+            GROUP BY aggregate_holdings.cusip, aggregate_holdings.issuer_name, aggregate_holdings.class_title, aggregate_holdings.shares_or_principal_amount_type
+          ), most_common AS (
+           SELECT DISTINCT ON (holding_counts.cusip) holding_counts.cusip,
+              holding_counts.issuer_name,
+              holding_counts.class_title,
+              holding_counts.shares_or_principal_amount_type,
+              holding_counts.holdings_count
+             FROM holding_counts
+            ORDER BY holding_counts.cusip, holding_counts.holdings_count DESC, holding_counts.issuer_name, holding_counts.class_title
+          )
+   SELECT mc.cusip,
+      mc.issuer_name,
+      mc.class_title,
+      mc.shares_or_principal_amount_type,
+      mc.holdings_count,
+      upper(map.symbol) AS symbol
+     FROM (most_common mc
+       LEFT JOIN cusip_symbol_mappings map ON ((mc.cusip = map.cusip)));
+  SQL
+  add_index "company_cusip_lookups", "holdings_count, lower(issuer_name)", name: "index_company_cusip_lookups_on_count_and_name"
+  add_index "company_cusip_lookups", ["cusip"], name: "index_company_cusip_lookups_on_cusip", unique: true
+  add_index "company_cusip_lookups", ["issuer_name"], name: "index_company_cusip_lookups_on_issuer_name", opclass: :gin_trgm_ops, using: :gin
+  add_index "company_cusip_lookups", ["symbol"], name: "index_company_cusip_lookups_on_symbol"
+  add_index "company_cusip_lookups", ["symbol"], name: "index_company_cusip_lookups_on_symbol_trigram", opclass: :gin_trgm_ops, using: :gin
 
 end

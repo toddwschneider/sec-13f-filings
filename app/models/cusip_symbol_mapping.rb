@@ -1,0 +1,2 @@
+class CusipSymbolMapping < ApplicationRecord
+end

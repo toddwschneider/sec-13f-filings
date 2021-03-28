@@ -99,28 +99,31 @@ module ThirteenFsHelper
 
   def cusip_index_dl_items(lookup, cusip)
     [
+      (["Symbol", lookup&.symbol] if lookup&.symbol),
       ["CUSIP", cusip],
       ["Type", lookup&.investment_type],
       ["Class", lookup&.class_title&.upcase]
-    ]
+    ].compact
   end
 
   def all_cusip_holders_dl_items(lookup, cusip)
     [
+      (["Symbol", lookup&.symbol] if lookup&.symbol),
       ["CUSIP", cusip],
       ["Type", lookup&.investment_type],
       ["Class", lookup&.class_title&.upcase],
       ["Total Reported Value ($000, excl. options)", nil, {dd_class: "total-value"}]
-    ]
+    ].compact
   end
 
   def manager_cusip_history_dl_items(manager, lookup, cusip)
     [
+      (["Symbol", lookup&.symbol] if lookup&.symbol),
+      ["CUSIP", cusip],
       ["Investment type", lookup&.investment_type],
       ["Class", lookup&.class_title&.upcase],
-      ["Manager CIK", manager.cik],
-      ["CUSIP", cusip]
-    ]
+      ["Manager CIK", manager.cik]
+    ].compact
   end
 
   def comparison_select_options(filing, other_filing = nil)

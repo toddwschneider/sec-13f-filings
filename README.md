@@ -38,8 +38,10 @@ Some other notable limitations more specific to this app:
 
 - Data is only available starting in 2014, because that's when the SEC began requiring managers to submit XML files [according to a spec](https://www.sec.gov/info/edgar/specifications/form13fxmltechspec.htm)
   - Filings before 2014 are generally plain text, and don't follow as consistent a structure, though with more work they could presumably be parsed and integrated into this app too
-- There is no support for searching for a company by stock symbol, i.e. if you want to find data on Apple, you'll have to search for "Apple" and not "AAPL"
-  - This is because the holdings-level data is reported by [CUSIP](https://en.wikipedia.org/wiki/CUSIP), and the mapping of CUSIPs to stock symbols requires a paid license. It probably wouldn't be too hard to hand-generate a mapping for the most common symbols, but the app does not include that yet
+- Searching for a company by stock symbol is not fully supported
+  - This is because the holdings-level SEC data is reported by [CUSIP](https://en.wikipedia.org/wiki/CUSIP), and the mapping of CUSIPs to stock symbols requires a paid license
+  - The [`cusip_symbol_mappings`](app/models/cusip_symbol_mapping.rb) table can be filled in manually to support search by symbol, but the mapping data is not included in this repo
+  - When in doubt, search for a company by name ("Apple") instead of by symbol ("AAPL")
 - The app doesn't know anything about actual historical market prices, stock splits, dividend payouts, and other possibly relevant events. For example, when you're looking at [Berkshire Hathaway's Apple holdings over time](https://13f.info/manager/0001067983/cusip/037833100), you'll see the number of shares nearly quadrupled from Q2 to Q3 2020, which in reality reflects a 4-for-1 split, not a net purchase of shares
 
 ## Getting started with development
@@ -147,8 +149,8 @@ There is no logged in experience, which makes it easier to use edge caching via 
 - Ability to analyze cohorts of managers, i.e. given a list of CIKs, look at combined holdings reports, quarterly comparisons
 - Test suite! Especially geared at edge cases like misclassified amendments, reports where managers overstate values by a factor of 1,000
 - Smarter/faster parsing on "13F release days", i.e. Feb 14, May 15, Aug 14, Nov 14
-- Add mapping of ticker symbol => CUSIP, at least for the most popular symbols
 - Better autocomplete that does not require an exact substring match
+- More official support for searching by stock ticker symbol
 
 ## Questions/issues/contact
 
