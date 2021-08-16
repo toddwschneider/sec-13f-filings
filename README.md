@@ -118,7 +118,7 @@ The `ThirteenF.cache_data_and_create_holdings_for_unprocessed` method will queue
 bundle exec rake jobs:work
 ```
 
-Processing seems to average about 1.5 records per second, and as of March 2021 there are ~140,000 records, so **it might take over a day to process all of them**. Note that the SEC's website has rate limits in place so I would not recommeng running more than 2 workers at a time
+Processing seems to average about 1.5 records per second, and as of March 2021 there are ~140,000 records, so **it might take over a day to process all of them**. Note that the SEC's website has rate limits in place so I would not recommend running more than 2 workers at a time
 
 ### Running a development server
 
