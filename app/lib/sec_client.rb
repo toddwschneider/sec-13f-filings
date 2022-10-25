@@ -24,7 +24,11 @@ class SecClient
     col_names = nil
 
     IO.foreach(filename) do |raw_line|
-      line = raw_line.strip.split("|")
+      line = raw_line.
+        encode("UTF-8", invalid: :replace, undef: :replace, replace: "?").
+        strip.
+        split("|")
+
       next unless line.size == EXPECTED_COL_NAMES.size
 
       if col_names.blank?
