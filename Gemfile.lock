@@ -87,6 +87,10 @@ GEM
     delayed_job_active_record (4.1.6)
       activerecord (>= 3.0, < 6.2)
       delayed_job (>= 3.0, < 5)
+    dotenv (2.8.1)
+    dotenv-rails (2.8.1)
+      dotenv (= 2.8.1)
+      railties (>= 3.2)
     down (5.2.3)
       addressable (~> 2.8)
     erubi (1.10.0)
@@ -140,7 +144,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.12.3-x86_64-linux)
       racc (~> 1.4)
-    pg (1.2.3)
+    pg (1.5.3)
     public_suffix (4.0.6)
     puma (5.4.0)
       nio4r (~> 2.0)
@@ -236,6 +240,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   clockwork (~> 2.0)
   delayed_job_active_record (~> 4.1)
+  dotenv-rails
   down (~> 5.2)
   foreman (~> 0.87)
   get_process_mem

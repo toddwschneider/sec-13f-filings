@@ -192,13 +192,13 @@ class SecClient
     end
   end
 
-  private
-
   def get(url)
-    response = HTTParty.get(url)
+    response = HTTParty.get(url, headers: request_headers)
     raise RateLimited if response.code == 429
     response
   end
+
+  private
 
   def padded_cik(str_or_int)
     str_or_int.to_s.strip.rjust(10, "0")
@@ -213,5 +213,18 @@ class SecClient
     index_url.
       gsub(/\-index.html?\z/i, "").
       gsub("-", "")
+  end
+
+  # https://www.sec.gov/os/webmaster-faq#code-support
+  def user_agent
+    if ENV["SEC_USER_AGENT"].blank?
+      raise "No SEC_USER_AGENT environment variable set"
+    end
+
+    ENV["SEC_USER_AGENT"]
+  end
+
+  def request_headers
+    {"User-Agent" => user_agent}
   end
 end
