@@ -36,7 +36,13 @@ class MinimalDbSeeder
     Delayed::Worker.new.work_off(1000)
 
     puts "#{Time.zone.now}: deleting unprocessed filings"
-    ThirteenF.unprocessed.where("created_at > ?", start_time).delete_all
+
+    ThirteenF.
+      unprocessed.
+      where("created_at > ?", start_time).
+      where.not(cik: ciks).
+      delete_all
+
     ThirteenFFiler.refresh!
 
     puts "#{Time.zone.now}: done, minimal db now available"

@@ -143,9 +143,9 @@ class ThirteenF < ApplicationRecord
 
   def cache_xml_data
     self.primary_doc_url = client.primary_doc_url(xml_urls)
-    self.primary_doc_xml = HTTParty.get(primary_doc_url).body if primary_doc_url
+    self.primary_doc_xml = client.get(primary_doc_url).body if primary_doc_url
     self.info_table_url = client.info_table_url(xml_urls)
-    self.info_table_xml = HTTParty.get(info_table_url).body if info_table_url
+    self.info_table_xml = client.get(info_table_url).body if info_table_url
     self.xml_data_fetched_at = Time.zone.now
 
     save!

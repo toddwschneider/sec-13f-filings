@@ -67,6 +67,14 @@ bundle exec rake db:setup
 yarn
 ```
 
+### Declare user agent with the SEC
+
+Per the [SEC Webmaster FAQ](https://www.sec.gov/os/webmaster-faq#code-support), you need to declare your user agent:
+
+`User-Agent: Sample Company Name AdminContact@<sample company domain>.com`
+
+The app looks for an environment variable called `SEC_USER_AGENT`, you can set it in development by creating a `.env` file in the project root and adding `SEC_USER_AGENT="Sample Company Name AdminContact@<sample company domain>.com"`, substituting your own name/email
+
 ### Database schema
 
 There are three main tables:
