@@ -18,7 +18,7 @@ class SecClient
     )
 
     FileUtils.mkdir_p(File.dirname(filename))
-    Down.download(url, destination: filename)
+    Down.download(url, destination: filename, headers: request_headers)
 
     thirteen_fs = []
     col_names = nil
