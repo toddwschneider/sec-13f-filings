@@ -163,3 +163,18 @@ There is no logged in experience, which makes it easier to use edge caching via 
 ## Questions/issues/contact
 
 todd@toddwschneider.com, or open a GitHub issue
+
+### Docker && Docker Compose
+```shell
+docker build -t sec-13f-filings .
+docker-compose up -d
+
+# test db connection
+docker-compose exec web rails dbconsole
+
+# test console
+docker-compose exec web rails console
+
+# stop and remove containers, volumes, and networks
+docker-compose down
+```

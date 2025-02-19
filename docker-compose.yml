@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password # TODO: change me
+      POSTGRES_USER: postgres # TODO: change me
+      POSTGRES_DB: sec_13f_filings_development
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    command: bash -c "
+      rm -f tmp/pids/server.pid &&
+      bundle exec rails db:create db:migrate &&
+      bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/app
+      - bundle_cache:/bundle
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/sec_13f_filings_development
+      RAILS_ENV: development
+      NODE_ENV: development
+      SEC_USER_AGENT: "support@gmail.com" # TODO: change me
+
+  worker:
+    build: .
+    command: bash -c "
+      bundle exec rails db:create db:migrate &&
+      bundle exec rake jobs:work"
+    volumes:
+      - .:/app
+      - bundle_cache:/bundle
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/sec_13f_filings_development
+      RAILS_ENV: development
+      NODE_ENV: development
+      SEC_USER_AGENT: "support@gmail.com" # TODO: change me
+
+volumes:
+  postgres_data:
+  bundle_cache:
